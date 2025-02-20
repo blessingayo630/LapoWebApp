@@ -1,0 +1,57 @@
+ 
+.sidebar_logo{
+     
+     width: 100%;
+     
+  }
+
+  .sidebarFooterImg{
+     width: 100%;
+
+  }
+
+  .main-menu-text,
+.powered-by-text {
+  font-size: 5px !important;
+}
+
+.MuiDrawer-paper {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.MuiDrawer-paper::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.dash-sidebar{
+   margin-right: 18rem;
+
+}
+
+.main-body{
+   width: 100%;
+   padding: 1.5rem;
+}
+
+.icon-nav{
+    position: absolute;
+      left: 0;
+      margin-left: 10px;
+      font-size: 1.5rem;
+      color: rgba(0, 23, 53, 1);
+}
+
+@media only screen and (max-width: 600px) {
+  body {
+    background-color: lightblue;
+  }
+
+  .dash-sidebar{
+    margin-right: 0px;
+  }
+
+  .icon-nav{
+    display: none;
+  }
+}
