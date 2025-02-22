@@ -1,16 +1,13 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import PropTypes from "prop-types";
 import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import MenuIcon from "@mui/icons-material/Menu";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -35,19 +32,22 @@ import { CiMap } from "react-icons/ci";
 import { HiOutlineUser } from "react-icons/hi2";
 import { IoIosLogOut, IoIosNotificationsOutline } from "react-icons/io";
 import sidebarFooterImg from "./assetsFolder/svg/Vector.svg";
-import MailIcon from "@mui/icons-material/Mail";
 import CardProfile from "./CardProfile";
+import CardRequest from "./CardRequest";
 
-const drawerWidth = 290;
+const drawerWidth = 270;
 
 const menuItems = [{ text: "Dashboard", icon: <BiHomeAlt /> }];
+
 const extraMenuItems = [
   { text: "Branches", icon: <HiOutlineBuildingOffice2 /> },
   { text: "Role", icon: <TbUserShield /> },
   { text: "Users", icon: <TbUsersGroup /> },
   { text: "Card Scheme", icon: <MdOutlineDisplaySettings /> },
+
   { text: "Card Profile", icon: <MdOutlineCreditScore /> },
   { text: "Card Request", icon: <GiSwipeCard /> },
+
   { text: "Stock", icon: <MdOutlineWaterfallChart /> },
   { text: "Cards", icon: <TbCreditCard /> },
   { text: "Authorization List", icon: <IoList /> },
@@ -55,26 +55,43 @@ const extraMenuItems = [
   { text: "Trail", icon: <CiMap /> },
   { text: "Account", icon: <HiOutlineUser /> },
 ];
+
 const logoutItems = [{ text: "Logout", icon: <IoIosLogOut /> }];
 
 export default function App(props) {
   const [showBreadcrumbs, setShowBreadcrumbs] = useState(false);
 
+  const [showBreadcrumbsRequest, setshowBreadcrumbsRequest] = useState(false);
+
   const [showCreateProfile, setShowCreateProfile] = useState(false);
 
   const handleAddProfile = () => {
-    setShowCreateProfile(true); // Show CreateProfile, hide current content
+    setShowCreateProfile(true);
+  };
+
+  const [showViewRequest, setShowViewRequest] = useState(false);
+
+  const handleViewClick = () => {
+    setShowViewRequest(true);
   };
 
   const handleBackClick = (event) => {
     event.preventDefault();
     setShowCreateProfile(false);
-    setShowBreadcrumbs(false); // Hide CreateProfile, show current content
+    setShowBreadcrumbs(false);
+    setShowViewRequest(false);
+    setshowBreadcrumbsRequest(false);
   };
 
   const handleClick = (event) => {
     event.preventDefault();
-    setShowBreadcrumbs(false); // Hide breadcrumbs on back
+    setShowBreadcrumbs(false);
+    setshowBreadcrumbsRequest(false);
+  };
+
+  const handleCreateRequest = (event) => {
+    event.preventDefault();
+    setshowBreadcrumbsRequest(false);
   };
 
   const breadcrumbs = [
@@ -83,7 +100,7 @@ export default function App(props) {
       key="1"
       color="inherit"
       href="/"
-      onClick={handleClick}
+      onClick={handleBackClick}
     >
       {"< Back"}
     </Link>,
@@ -100,6 +117,31 @@ export default function App(props) {
       Create Profile
     </Typography>,
   ];
+
+  const breadcrumbsRequest = [
+    <Link
+      underline="hover"
+      key="1"
+      color="inherit"
+      href="/"
+      onClick={handleBackClick}
+    >
+      {"< Back"}
+    </Link>,
+    <Link
+      underline="hover"
+      key="2"
+      color="inherit"
+      href="/"
+      onClick={handleBackClick}
+    >
+      Card Request
+    </Link>,
+    <Typography key="3" sx={{ color: "text.primary" }}>
+      Request Details
+    </Typography>,
+  ];
+
   const { window } = props;
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -152,16 +194,16 @@ export default function App(props) {
                 backgroundColor:
                   activeItem === item.text
                     ? "rgba(211, 211, 211, 1)"
-                    : "transparent", // Light gray
+                    : "transparent",
 
                 border:
                   activeItem === item.text
                     ? "2px rgba(246, 246, 246, 1)"
-                    : "transparent", // Light gray
+                    : "transparent",
                 color:
                   activeItem === item.text
                     ? "rgba(1, 77, 175, 1)"
-                    : "rgba(128, 128, 128, 1)", // Ensure text is readable
+                    : "rgba(128, 128, 128, 1)",
                 "&.Mui-selected": {
                   backgroundColor: "rgba(211, 211, 211, 1) !important",
                   color: "rgba(1, 77, 175, 1)",
@@ -184,10 +226,22 @@ export default function App(props) {
           </ListItem>
         ))}
       </List>
-      <List sx={{ color: "rgba(128, 128, 128, 1)" }}>
-        <ListItemText primary="MAIN MENU" className="main-menu-text" />
+      <List
+        sx={{
+          color: "rgba(128, 128, 128, 1)",
+        }}
+      >
+        <ListItemText
+          primary="MAIN MENU"
+          sx={{ fontSize: "10px" }}
+          className="main-menu-text"
+        />
         {extraMenuItems.map((item) => (
-          <ListItem key={item.text} disablePadding>
+          <ListItem
+            style={{ display: "flex", flexWrap: "wrap" }}
+            key={item.text}
+            disablePadding
+          >
             <ListItemButton
               selected={activeItem === item.text}
               onClick={() => handleMenuItemClick(item.text)}
@@ -226,6 +280,7 @@ export default function App(props) {
           </ListItem>
         ))}
       </List>
+
       <List sx={{ marginTop: "80px", marginBottom: "50px" }}>
         {logoutItems.map((item) => (
           <ListItem key={item.text} disablePadding>
@@ -307,21 +362,6 @@ export default function App(props) {
               >
                 <MenuIcon />
               </IconButton>
-
-              <Box
-                sx={{
-                  position: "absolute",
-                  right: "0px",
-                  display: "flex",
-                  gap: "15px",
-                  justifyContent: "end",
-                  marginRight: "10px",
-                  fontSize: "1.5rem",
-                }}
-              >
-                <IoIosNotificationsOutline />
-                <TbUserCircle />
-              </Box>
             </>
           ) : (
             <Box
@@ -360,7 +400,7 @@ export default function App(props) {
             ) : null;
           })()} */}
 
-          <Box sx={{ p: 2 }}>
+          {/* <Box sx={{ p: 2 }}>
             {showBreadcrumbs ? (
               <Breadcrumbs separator="›">{breadcrumbs}</Breadcrumbs>
             ) : (
@@ -374,7 +414,7 @@ export default function App(props) {
                   <Box sx={{ display: "flex", gap: 4 }}>
                     <Box className="icon-nav">{activeMenu.icon}</Box>
                     <Typography
-                      sx={{ position: "relative", left: "20px" }}
+                      sx={{ position: "relative", left: "18px", top: "3px" }}
                       noWrap
                       component="div"
                     >
@@ -384,7 +424,90 @@ export default function App(props) {
                 ) : null;
               })()
             )}
-          </Box>
+          </Box> */}
+          {/* 
+          <Box sx={{ p: 2 }}>
+            {showBreadcrumbsRequest ? (
+              <Breadcrumbs separator="›">{breadcrumbsRequest}</Breadcrumbs>
+            ) : (
+              (() => {
+                const activeMenu = [
+                  ...menuItems,
+                  ...extraMenuItems,
+                  ...logoutItems,
+                ].find((item) => item.text === activeItem);
+                return activeMenu ? (
+                  <Box sx={{ display: "flex", gap: 4 }}>
+                    <Box className="icon-nav">{activeMenu.icon}</Box>
+                    <Typography
+                      sx={{ position: "relative", left: "18px", top: "3px" }}
+                      noWrap
+                      component="div"
+                    >
+                      {activeItem}
+                    </Typography>
+                  </Box>
+                ) : null;
+              })()
+            )}
+          </Box> */}
+
+          {activeItem === "Card Profile" && (
+            <Box sx={{ p: 2 }}>
+              {showBreadcrumbs ? (
+                <Breadcrumbs separator="›">{breadcrumbs}</Breadcrumbs>
+              ) : (
+                (() => {
+                  const activeMenu = [
+                    ...menuItems,
+                    ...extraMenuItems,
+                    ...logoutItems,
+                  ].find((item) => item.text === activeItem);
+
+                  return activeMenu ? (
+                    <Box sx={{ display: "flex", gap: 4 }}>
+                      <Box className="icon-nav">{activeMenu.icon}</Box>
+                      <Typography
+                        sx={{ position: "relative", left: "18px", top: "3px" }}
+                        noWrap
+                        component="div"
+                      >
+                        {activeItem}
+                      </Typography>
+                    </Box>
+                  ) : null;
+                })()
+              )}
+            </Box>
+          )}
+
+          {activeItem === "Card Request" && (
+            <Box sx={{ p: 2 }}>
+              {showBreadcrumbsRequest ? (
+                <Breadcrumbs separator="›">{breadcrumbsRequest}</Breadcrumbs>
+              ) : (
+                (() => {
+                  const activeMenu = [
+                    ...menuItems,
+                    ...extraMenuItems,
+                    ...logoutItems,
+                  ].find((item) => item.text === activeItem);
+                  return activeMenu ? (
+                    <Box sx={{ display: "flex", gap: 4 }}>
+                      <Box className="icon-nav">{activeMenu.icon}</Box>
+                      <Typography
+                        sx={{ position: "relative", left: "18px", top: "3px" }}
+                        noWrap
+                        component="div"
+                      >
+                        {activeItem}
+                      </Typography>
+                    </Box>
+                  ) : null;
+                })()
+              )}
+            </Box>
+          )}
         </Toolbar>
       </AppBar>
 
@@ -394,7 +517,7 @@ export default function App(props) {
           variant="temporary"
           open={mobileOpen}
           onTransitionEnd={handleDrawerTransitionEnd}
-          onClose={handleDrawerClose}
+          onClick={handleDrawerClose}
           ModalProps={{
             keepMounted: true,
           }}
@@ -407,6 +530,23 @@ export default function App(props) {
           }}
         >
           {drawerContent}
+
+          <Box
+            sx={{
+              position: "absolute",
+              // right: "0px",
+              bottom: "0px",
+
+              display: "flex",
+              gap: "15px",
+              // justifyContent: "end",
+              left: "30px",
+              fontSize: "1.5rem",
+            }}
+          >
+            <IoIosNotificationsOutline />
+            <TbUserCircle />
+          </Box>
         </Drawer>
         <Drawer
           variant="permanent"
@@ -429,7 +569,14 @@ export default function App(props) {
         sx={{
           // flexGrow: 1,
           bgcolor: "rgba(248, 251, 255, 1)",
-          height: "100vh",
+          // height: "100%",
+          overflowY: "auto",
+          maxHeight: "50rem",
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+          "-ms-overflow-style": "none",
+          "scrollbar-width": "none",
           // pt: 3,
           // width: "80%",
           // margin: "auto",
@@ -441,7 +588,7 @@ export default function App(props) {
         </Typography>
         <Typography paragraph>
           {activeItem === "Dashboard" ? (
-            "Welcome to your dashboard! The sidebar should now be visible on both mobile and desktop."
+            "Welcome to your dashboard!"
           ) : activeItem === "Card Profile" ? (
             <CardProfile
               setShowBreadcrumbs={setShowBreadcrumbs}
@@ -449,6 +596,15 @@ export default function App(props) {
               handleAddProfile={handleAddProfile}
               handleBackClick={handleBackClick}
               setShowCreateProfile={setShowCreateProfile}
+            />
+          ) : activeItem === "Card Request" ? (
+            <CardRequest
+              // setShowBreadcrumbs={setShowBreadcrumbs}
+              setshowBreadcrumbsRequest={setshowBreadcrumbsRequest}
+              showViewRequest={showViewRequest}
+              handleViewClick={handleViewClick}
+              handleBackClick={handleBackClick}
+              setShowViewRequest={setShowViewRequest}
             />
           ) : (
             `You are currently viewing the ${activeItem} page.`

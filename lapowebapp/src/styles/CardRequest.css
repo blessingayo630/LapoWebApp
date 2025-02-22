@@ -1,0 +1,37 @@
+ .actions{
+    display: flex; 
+    gap: 15px;
+}
+
+.colorbuttons{
+    width: 192px;
+}
+
+.colorbuttons1{
+    width: 163px;
+}
+
+.colorbuttons2{
+    width: 136px;
+}
+
+.colorbuttons3{
+     width: 149px;
+}
+
+.colorbuttons4{
+     width: 183px;
+}
+
+@media (max-width: 700px) {
+ .actions{
+    display: flex; 
+    flex-direction: column;
+    gap: 15px;
+}
+
+.colorbuttons, .colorbuttons1, .colorbuttons2, .colorbuttons3, .colorbuttons4{
+    width: 100%;
+}
+
+}

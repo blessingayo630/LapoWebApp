@@ -9,6 +9,7 @@ import {
   CircularProgress,
   Divider,
   Button,
+  Chip,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -19,6 +20,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import ViewRequest from "./ViewRequest";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -46,10 +48,12 @@ function createData(name, calories, fat, carbs, protein, action) {
 }
 
 const rows = [
-  createData("Verve-1", "NGN", "40 months", 50611234, "11/10/2024  23:21:03"),
-  createData("Verve-1", "NGN", "40 months", 50611234, "11/10/2024  23:21:03"),
-  createData("Verve-1", "NGN", "40 months", 50611234, "11/10/2024  23:21:03"),
-  createData("Verve-1", "NGN", "40 months", 50611234, "11/10/2024  23:21:03"),
+  createData("Corporate", "RootUser", "10", 847264905, "11/10/2024  23:21:03"),
+  createData("Corporate", "RootUser", "10", 847264905, "11/10/2024  23:21:03"),
+  createData("Corporate", "RootUser", "10", 847264905, "11/10/2024  23:21:03"),
+  createData("Corporate", "RootUser", "10", 847264905, "11/10/2024  23:21:03"),
+  createData("Corporate", "RootUser", "10", 847264905, "11/10/2024  23:21:03"),
+
   //   createData("Gingerbread", 356,"40 months", 49, 3.9),
 ];
 
@@ -61,36 +65,34 @@ function sleep(duration) {
   });
 }
 
-const CardProfile = ({
-  setShowBreadcrumbs,
-  showCreateProfile,
-  handleAddProfile,
+const CardRequest = ({
+  setshowBreadcrumbsRequest,
+  showViewRequest,
+  handleViewClick,
   handleBackClick,
-  setShowCreateProfile,
+  setShowViewRequest,
+  //   setShowBreadcrumbs,
+  //   showBreadcrumbsRequest,
+  //   showCreateProfile,
+  //   handleAddProfile,
+  //   handleBackClick,
+  //   setShowCreateProfile,
 }) => {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   //   const [showCreateProfile, setShowCreateProfile] = useState(false);
-  const handleAddProfileClick = () => {
-    setShowBreadcrumbs(true); // Show breadcrumbs when clicking "+ Add Profile"
-    setShowCreateProfile(true);
-  };
-
-  //   const handleBackClick = () => {
-  //     setShowCreateProfile(false); // Hide CreateProfile, show current content
+  //   const handleAddProfileClick = () => {
+  //     setShowBreadcrumbs(true);
+  //     setShowCreateProfile(true);
   //   };
-
-  //   const handleOpen = () => {
-  //     setOpen(true);
-  //     (async () => {
-  //       setLoading(true);
-  //       await sleep(1e3);
-  //       setLoading(false);
-
-  //       setOptions([...topFilms]);
-  //     })();
-  //   };
+  const chipLabels = [
+    { label: "Ready", color: "success" },
+    { label: "Ready", color: "success" },
+    { label: "In Progress", color: "error" },
+    { label: "Pending", color: "default" },
+    { label: "Acknowledged", color: "primary" },
+  ];
 
   const handleOpen = () => {
     setOpen(true);
@@ -106,13 +108,16 @@ const CardProfile = ({
     setOptions([]);
   };
 
+  const handleProfileRequest = () => {
+    setshowBreadcrumbsRequest(true);
+    setShowViewRequest(true);
+  };
+
   return (
     <div>
-      {!showCreateProfile ? (
+      {!showViewRequest ? (
         <div>
-          <div className="subtext">
-            Create, view and edit card profiles here.
-          </div>
+          <div className="subtext">View and attend to card requests here.</div>
           <Divider />
           <div className="search-container">
             <Autocomplete
@@ -144,8 +149,7 @@ const CardProfile = ({
                       </>
                     ),
                   }}
-                  className="searching"
-                  placeholder="Search by card name"
+                  placeholder="Search by branch"
                   sx={{
                     "& .MuiOutlinedInput-root": {
                       borderRadius: "8px",
@@ -164,10 +168,10 @@ const CardProfile = ({
                 />
               )}
             />
-            <div>
+            {/* <div>
               <Button
                 onClick={handleAddProfileClick}
-                className="add-profile-btn btn-btn"
+                className="add-profile-btn"
                 sx={{
                   textTransform: "capitalize",
                 }}
@@ -175,7 +179,7 @@ const CardProfile = ({
               >
                 + Add Profile
               </Button>
-            </div>
+            </div> */}
           </div>
           <Divider />
 
@@ -184,18 +188,19 @@ const CardProfile = ({
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell>Card Name</StyledTableCell>
-                    <StyledTableCell align="center">Currency</StyledTableCell>
-                    <StyledTableCell align="center">Expiration</StyledTableCell>
-                    <StyledTableCell align="center">Bin Prefix</StyledTableCell>
+                    <StyledTableCell>Branch</StyledTableCell>
+                    <StyledTableCell align="center">Initiator</StyledTableCell>
+                    <StyledTableCell align="center">Quantity</StyledTableCell>
+                    <StyledTableCell align="center">Batch</StyledTableCell>
                     <StyledTableCell align="center">
-                      Date Created
+                      Date Requested
                     </StyledTableCell>
+                    <StyledTableCell align="center">Status</StyledTableCell>
                     <StyledTableCell align="center">Action</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody sx={{ cursor: "pointer" }}>
-                  {rows.map((row) => (
+                  {rows.slice(0, 5).map((row, index) => (
                     <StyledTableRow key={row.name}>
                       <StyledTableCell component="th" scope="row">
                         {row.name}
@@ -213,28 +218,17 @@ const CardProfile = ({
                         {row.protein}
                       </StyledTableCell>
                       <StyledTableCell align="center">
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            gap: "10px",
-                          }}
-                        >
-                          <RiDeleteBin6Line
-                            style={{
-                              cursor: "pointer",
-                              color: "rgba(71, 84, 103, 1)",
-                              fontSize: "15px",
-                            }}
-                          />
-                          <CiEdit
-                            style={{
-                              cursor: "pointer",
-                              color: "rgba(71, 84, 103, 1)",
-                              fontSize: "18px",
-                            }}
-                          />
-                        </div>
+                        <Chip
+                          variant="outlined"
+                          color={chipLabels[index % chipLabels.length].color}
+                          label={chipLabels[index % chipLabels.length].label}
+                        />
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="center"
+                        onClick={handleProfileRequest}
+                      >
+                        <div style={{ color: "rgba(1, 77, 175, 1)" }}>View</div>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}
@@ -244,10 +238,10 @@ const CardProfile = ({
           </div>
         </div>
       ) : (
-        <CreateProfile onBack={handleBackClick} />
+        <ViewRequest onBack={handleBackClick} />
       )}
     </div>
   );
 };
 
-export default CardProfile;
+export default CardRequest;
