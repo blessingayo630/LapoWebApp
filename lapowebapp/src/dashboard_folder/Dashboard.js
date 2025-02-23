@@ -34,6 +34,9 @@ import { IoIosLogOut, IoIosNotificationsOutline } from "react-icons/io";
 import sidebarFooterImg from "../assetsFolder/svg/Vector.svg";
 import CardProfile from "./CardProfile";
 import CardRequest from "./CardRequest";
+import DashboardHome from "./DashboardHome";
+// import { fontWeight } from "html2canvas/dist/types/css/property-descriptors/font-weight";
+// import html2canvas from "html2canvas/dist/types/css/property-descriptors/font-weight";
 
 const drawerWidth = 270;
 
@@ -80,6 +83,17 @@ export default function Dashboard(props) {
     setShowCreateProfile(false);
     setShowBreadcrumbs(false);
     setShowViewRequest(false);
+    setshowBreadcrumbsRequest(false);
+  };
+
+  const handleClick = (event) => {
+    event.preventDefault();
+    setShowBreadcrumbs(false);
+    setshowBreadcrumbsRequest(false);
+  };
+
+  const handleCreateRequest = (event) => {
+    event.preventDefault();
     setshowBreadcrumbsRequest(false);
   };
 
@@ -196,6 +210,10 @@ export default function Dashboard(props) {
                   color: "rgba(1, 77, 175, 1)",
                   borderRadius: "8px",
                 },
+                // "&.Mui-selected:hover": {
+                //   backgroundColor: "rgba(190, 190, 190, 1) !important",
+                // },
+
                 "& .MuiListItemIcon-root": {
                   color:
                     activeItem === item.text
@@ -311,6 +329,9 @@ export default function Dashboard(props) {
                   color: "rgba(1, 77, 175, 1)",
                   borderRadius: "8px",
                 },
+                // "&.Mui-selected:hover": {
+                //   backgroundColor: "rgba(190, 190, 190, 1) !important",
+                // },
 
                 "& .MuiListItemIcon-root": {
                   color:
@@ -370,6 +391,35 @@ export default function Dashboard(props) {
     ) : null;
   };
 
+  const renderActiveComponent = () => {
+    switch (activeItem) {
+      case "Dashboard":
+        return <DashboardHome />;
+      case "Card Profile":
+        return (
+          <CardProfile
+            setShowBreadcrumbs={setShowBreadcrumbs}
+            showCreateProfile={showCreateProfile}
+            handleAddProfile={handleAddProfile}
+            handleBackClick={handleBackClick}
+            setShowCreateProfile={setShowCreateProfile}
+          />
+        );
+      case "Card Request":
+        return (
+          <CardRequest
+            setshowBreadcrumbsRequest={setshowBreadcrumbsRequest}
+            showViewRequest={showViewRequest}
+            handleViewClick={handleViewClick}
+            handleBackClick={handleBackClick}
+            setShowViewRequest={setShowViewRequest}
+          />
+        );
+      default:
+        return `You are currently viewing the ${activeItem} page.`;
+    }
+  };
+
   const renderBreadcrumbs = () => {
     if (activeItem === "Card Profile" && showBreadcrumbs) {
       return <Breadcrumbs separator="›">{breadcrumbs}</Breadcrumbs>;
@@ -401,7 +451,7 @@ export default function Dashboard(props) {
                 aria-label="open drawer"
                 edge="start"
                 onClick={handleDrawerToggle}
-                sx={{ mr: -3, mt: 1, display: { sm: "none" } }}
+                sx={{ mr: 2, display: { sm: "none" } }}
               >
                 <MenuIcon />
               </IconButton>
@@ -499,33 +549,10 @@ export default function Dashboard(props) {
         }}
       >
         <Toolbar />
-        <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
-          {activeItem} {/* Display active page heading */}
-        </Typography>
-        <Typography paragraph>
-          {activeItem === "Dashboard" ? (
-            "Welcome to your dashboard!"
-          ) : activeItem === "Card Profile" ? (
-            <CardProfile
-              setShowBreadcrumbs={setShowBreadcrumbs}
-              showCreateProfile={showCreateProfile}
-              handleAddProfile={handleAddProfile}
-              handleBackClick={handleBackClick}
-              setShowCreateProfile={setShowCreateProfile}
-            />
-          ) : activeItem === "Card Request" ? (
-            <CardRequest
-              // setShowBreadcrumbs={setShowBreadcrumbs}
-              setshowBreadcrumbsRequest={setshowBreadcrumbsRequest}
-              showViewRequest={showViewRequest}
-              handleViewClick={handleViewClick}
-              handleBackClick={handleBackClick}
-              setShowViewRequest={setShowViewRequest}
-            />
-          ) : (
-            `You are currently viewing the ${activeItem} page.`
-          )}
-        </Typography>
+        {/* <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
+          {activeItem}
+        </Typography> */}
+        <Typography paragraph>{renderActiveComponent()}</Typography>
       </Box>
     </Box>
   );

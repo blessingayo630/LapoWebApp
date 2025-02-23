@@ -109,6 +109,7 @@ const CardRequest = ({
     <div>
       {!showViewRequest ? (
         <div>
+          <h3>Card Profile</h3>
           <div className="subtext">View and attend to card requests here.</div>
           <Divider />
 

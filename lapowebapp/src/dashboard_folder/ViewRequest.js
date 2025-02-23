@@ -522,7 +522,7 @@ const ViewRequest = () => {
                   onClick={() => {
                     handleButtonClick("dispatch");
                     handleOp();
-                    setStatus("Pending");
+                    setStatus("Ready");
                   }}
                   className="colorbuttons3"
                   style={{

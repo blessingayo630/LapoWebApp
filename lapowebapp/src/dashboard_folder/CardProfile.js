@@ -296,6 +296,7 @@ const CardProfile = ({
     <div>
       {!showCreateProfile ? (
         <div>
+          <h3>Card Profile</h3>
           <div className="subtext">
             Create, view and edit card profiles here.
           </div>
