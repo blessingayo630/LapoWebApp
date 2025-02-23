@@ -533,9 +533,7 @@ export default function Dashboard(props) {
         component="main"
         className="main-body"
         sx={{
-          // flexGrow: 1,
           bgcolor: "rgba(248, 251, 255, 1)",
-          // height: "100%",
           overflowY: "auto",
           maxHeight: "50rem",
           "&::-webkit-scrollbar": {
@@ -543,15 +541,9 @@ export default function Dashboard(props) {
           },
           "-ms-overflow-style": "none",
           "scrollbar-width": "none",
-          // pt: 3,
-          // width: "80%",
-          // margin: "auto",
         }}
       >
         <Toolbar />
-        {/* <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
-          {activeItem}
-        </Typography> */}
         <Typography paragraph>{renderActiveComponent()}</Typography>
       </Box>
     </Box>
