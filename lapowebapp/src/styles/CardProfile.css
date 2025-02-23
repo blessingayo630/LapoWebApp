@@ -33,7 +33,11 @@
     gap: 10px;
 }
 
-.searching, .add-profile-btn{
+.searching{
+  width: 100%;
+}
+
+.add-profile-btn{
   width: 100%;
 }
 

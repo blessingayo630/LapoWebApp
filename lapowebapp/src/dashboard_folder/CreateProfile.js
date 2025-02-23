@@ -1,36 +1,37 @@
 import React, { useState } from "react";
-import { Button, Divider } from "@mui/material";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import {
+  Box,
+  Button,
+  Divider,
+  TextField,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
   Typography,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableCell,
+  FormControlLabel,
+  FormLabel,
+  RadioGroup,
+  Radio,
+  Modal,
+  Backdrop,
+  styled,
+  Paper,
+  Fade,
 } from "@mui/material";
-import "./App.css";
-import "./styles/CreateProfile.css";
-import { CiEdit } from "react-icons/ci";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { styled } from "@mui/material/styles";
-import Backdrop from "@mui/material/Backdrop";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
+
 import { RiAddBoxLine } from "react-icons/ri";
 import { IoCloseOutline } from "react-icons/io5";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-// import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
+
+import "../App.css";
+import "../styles/CreateProfile.css";
+import { tableCellClasses } from "@mui/material/TableCell";
 
 const style = {
   position: "absolute",
@@ -41,6 +42,17 @@ const style = {
   borderRadius: "12px",
   bgcolor: "background.paper",
   height: "668px",
+};
+
+const formControlStyles = {
+  backgroundColor: "#fff",
+  "& .MuiOutlinedInput-root": {
+    height: "48px",
+    borderRadius: "8px",
+  },
+  "& .MuiOutlinedInput-notchedOutline": {
+    borderColor: "#D0D5DD",
+  },
 };
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -56,24 +68,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: "rgba(255, 255, 255, 1)",
-  },
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
-function createData(name, calories, fat, carbs, protein, action) {
-  return { name, calories, fat, carbs, protein, action };
-}
-
-// const rows = [
-//   createData("Verve-1", "NGN", "40 months", 50611234, "11/10/2024  23:21:03"),
-// ];
-
-const CreateProfile = ({ onBack }) => {
+const CreateProfile = () => {
   const [cardScheme, setCardScheme] = useState("");
   const [currency, setCurrency] = useState("");
   const [open, setOpen] = React.useState(false);
@@ -88,73 +83,30 @@ const CreateProfile = ({ onBack }) => {
       </div>
       <div className="create-pro-container">
         <p>Profile Details</p>
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "20px",
-          }}
-        >
+
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
           <Box
             component="form"
             sx={{ flex: "1 1 300px" }}
             noValidate
             autoComplete="off"
           >
-            <div style={{ marginBottom: "10px" }}>
-              <label htmlFor="card-name" className="label">
-                Card Name*
-              </label>
-              <div className="">
-                <TextField
-                  fullWidth
-                  type="text"
-                  name="card-name"
-                  id="outlined-basic"
-                  label="Enter card name"
-                  variant="outlined"
-                  sx={{
-                    backgroundColor: "#fff",
-                    "& .MuiOutlinedInput-root": {
-                      height: "48px",
-                      borderRadius: "8px",
-                    },
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "#D0D5DD",
-                    },
-                  }}
-                />
-              </div>
-            </div>
-
-            <div style={{ marginBottom: "10px" }}>
-              <Typography
-                sx={{
-                  fontSize: "12px",
-                  color: "rgba(52, 64, 84, 1)",
-                  marginBottom: "4px",
-                }}
-              >
-                Card Scheme*
-              </Typography>
-              <FormControl
+            <FormSection label="Card Name*">
+              <TextField
                 fullWidth
-                sx={{
-                  backgroundColor: "#fff",
-                  "& .MuiOutlinedInput-root": {
-                    height: "48px",
-                    borderRadius: "8px",
-                  },
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "#D0D5DD",
-                  },
-                }}
-              >
-                <InputLabel id="card-scheme-label">Verve</InputLabel>
+                type="text"
+                label="Enter card name"
+                variant="outlined"
+                sx={formControlStyles}
+              />
+            </FormSection>
+
+            <FormSection label="Card Scheme*">
+              <FormControl fullWidth sx={formControlStyles}>
+                <InputLabel id="card-scheme-label">Select</InputLabel>
                 <Select
                   labelId="card-scheme-label"
-                  label="Enter card name"
-                  id="card-scheme"
+                  label="Select"
                   value={cardScheme}
                   onChange={(e) => setCardScheme(e.target.value)}
                 >
@@ -163,159 +115,65 @@ const CreateProfile = ({ onBack }) => {
                   <MenuItem value="amex">American Express</MenuItem>
                 </Select>
               </FormControl>
-            </div>
+            </FormSection>
 
-            <div style={{ marginBottom: "10px" }}>
-              <Typography
-                sx={{
-                  fontSize: "12px",
-                  color: "rgba(52, 64, 84, 1)",
-                  marginBottom: "4px",
-                }}
-              >
-                Description
-              </Typography>
-
+            <FormSection label="Description">
               <TextField
-                name="card-description"
-                id="card-description"
-                variant="outlined"
+                label="typing..."
                 fullWidth
-                sx={{
-                  backgroundColor: "#fff",
-                  "& .MuiOutlinedInput-root": {
-                    height: "48px",
-                    borderRadius: "8px",
-                  },
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "#D0D5DD",
-                  },
-                }}
+                multiline
+                rows={3}
+                variant="outlined"
+                sx={formControlStyles}
               />
-            </div>
-            <div>
-              <div style={{ marginBottom: "10px" }}>
-                <Typography
-                  sx={{
-                    fontSize: "12px",
-                    color: "rgba(52, 64, 84, 1)",
-                    marginBottom: "4px",
-                  }}
+            </FormSection>
+
+            <FormSection label="Branch Blacklist">
+              <FormControl fullWidth sx={formControlStyles}>
+                <InputLabel id="branch-label">Select</InputLabel>
+                <Select
+                  labelId="branch-label"
+                  label="Select"
+                  value={cardScheme}
+                  onChange={(e) => setCardScheme(e.target.value)}
                 >
-                  Branch Blacklist
-                </Typography>
-                <FormControl
-                  fullWidth
-                  sx={{
-                    backgroundColor: "#fff",
-                    "& .MuiOutlinedInput-root": {
-                      height: "48px",
-                      borderRadius: "8px",
-                    },
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "#D0D5DD",
-                    },
-                  }}
-                >
-                  <InputLabel id="branch-label">Head Office</InputLabel>
-                  <Select
-                    labelId="branch-label"
-                    label="Enter card name"
-                    id="branch"
-                    value={cardScheme}
-                    onChange={(e) => setCardScheme(e.target.value)}
-                  >
-                    <MenuItem value="visa">Abuja</MenuItem>
-                    <MenuItem value="mastercard">Lagos</MenuItem>
-                    <MenuItem value="amex">United Kingdom </MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-            </div>
+                  <MenuItem value="abuja">Abuja</MenuItem>
+                  <MenuItem value="lagos">Lagos</MenuItem>
+                  <MenuItem value="uk">United Kingdom</MenuItem>
+                </Select>
+              </FormControl>
+            </FormSection>
           </Box>
 
           <Box sx={{ flex: "1 1 300px" }}>
-            <div style={{ marginBottom: "10px" }}>
-              <label htmlFor="bin-prefix" className="label">
-                Bin Prefix*
-              </label>
-              <div className="">
-                <TextField
-                  type="number"
-                  name="bin-prefix"
-                  id="bin-prefix"
-                  label="00000000"
-                  variant="outlined"
-                  fullWidth
-                  sx={{
-                    backgroundColor: "#fff",
-                    "& .MuiOutlinedInput-root": {
-                      height: "48px",
-                      borderRadius: "8px",
-                    },
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "#D0D5DD",
-                    },
-                  }}
-                />
-              </div>
-            </div>
-
-            <div style={{ marginBottom: "10px" }}>
-              <label htmlFor="expiration" className="label">
-                Expiration*
-              </label>
-              <div className="">
-                <TextField
-                  type="number"
-                  name="expiration"
-                  id="expiration"
-                  label="0"
-                  variant="outlined"
-                  fullWidth
-                  sx={{
-                    backgroundColor: "#fff",
-                    "& .MuiOutlinedInput-root": {
-                      height: "48px",
-                      borderRadius: "8px",
-                    },
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      borderColor: "#D0D5DD",
-                    },
-                  }}
-                />
-              </div>
-            </div>
-
-            <div style={{ marginBottom: "10px" }}>
-              <Typography
-                sx={{
-                  fontSize: "12px",
-                  color: "rgba(52, 64, 84, 1)",
-                  marginBottom: "4px",
-                }}
-              >
-                Currency*
-              </Typography>
-
-              <FormControl
+            <FormSection label="Bin Prefix*">
+              <TextField
                 fullWidth
-                sx={{
-                  backgroundColor: "#fff",
-                  "& .MuiOutlinedInput-root": {
-                    height: "48px",
-                    borderRadius: "8px",
-                  },
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "#D0D5DD",
-                  },
-                }}
-              >
-                <InputLabel id="currency-label">NGN</InputLabel>
+                label="Select"
+                type="number"
+                placeholder="00000000"
+                variant="outlined"
+                sx={formControlStyles}
+              />
+            </FormSection>
+
+            <FormSection label="Expiration*">
+              <TextField
+                fullWidth
+                label="Select"
+                type="number"
+                placeholder="0"
+                variant="outlined"
+                sx={formControlStyles}
+              />
+            </FormSection>
+
+            <FormSection label="Currency*">
+              <FormControl fullWidth sx={formControlStyles}>
+                <InputLabel id="currency-label">Select</InputLabel>
                 <Select
                   labelId="currency-label"
-                  id="currency"
-                  label="currency"
+                  label="Select"
                   value={currency}
                   onChange={(e) => setCurrency(e.target.value)}
                 >
@@ -325,7 +183,7 @@ const CreateProfile = ({ onBack }) => {
                   <MenuItem value="GBP">GBP - British Pound</MenuItem>
                 </Select>
               </FormControl>
-            </div>
+            </FormSection>
           </Box>
         </Box>
       </div>
@@ -630,47 +488,7 @@ const CreateProfile = ({ onBack }) => {
                   <StyledTableCell align="right">Account</StyledTableCell>
                 </TableRow>
               </TableHead>
-              <TableBody sx={{ cursor: "pointer", height: "4rem" }}>
-                {/* {rows.map((row) => (
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.name}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.calories}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                    <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.protein}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          gap: "10px",
-                        }}
-                      >
-                        <RiDeleteBin6Line
-                          style={{
-                            cursor: "pointer",
-                            color: "rgba(71, 84, 103, 1)",
-                            fontSize: "15px",
-                          }}
-                        />
-                        <CiEdit
-                          style={{
-                            cursor: "pointer",
-                            color: "rgba(71, 84, 103, 1)",
-                            fontSize: "18px",
-                          }}
-                        />
-                      </div>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))} */}
-              </TableBody>
+              <TableBody sx={{ cursor: "pointer", height: "4rem" }}></TableBody>
             </Table>
           </TableContainer>
         </div>
@@ -689,5 +507,22 @@ const CreateProfile = ({ onBack }) => {
     </div>
   );
 };
+
+function FormSection({ label, children }) {
+  return (
+    <Box sx={{ marginBottom: "10px" }}>
+      <Typography
+        sx={{
+          fontSize: "12px",
+          color: "rgba(52, 64, 84, 1)",
+          marginBottom: "4px",
+        }}
+      >
+        {label}
+      </Typography>
+      {children}
+    </Box>
+  );
+}
 
 export default CreateProfile;

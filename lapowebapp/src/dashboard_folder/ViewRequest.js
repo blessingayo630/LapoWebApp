@@ -1,21 +1,27 @@
 import React, { useState } from "react";
-import { Button, Chip, Stack, Modal, Box, Typography } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import "./App.css";
-import "./styles/CreateProfile.css";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
-import { styled } from "@mui/material/styles";
-import { LuDownload } from "react-icons/lu";
+import {
+  Button,
+  Chip,
+  Stack,
+  Modal,
+  Box,
+  Typography,
+  TextField,
+} from "@mui/material";
+
+import "../App.css";
+import "../styles/CreateProfile.css";
+
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+
+import { LuDownload, LuPackageCheck } from "react-icons/lu";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { RiLoader2Fill } from "react-icons/ri";
-import { LuPackageCheck } from "react-icons/lu";
 import { GoPackageDependencies } from "react-icons/go";
-import "./styles/CardRequest.css";
+import "../styles/CardRequest.css";
 
-const ViewRequest = ({ onBack }) => {
+const ViewRequest = () => {
   const [activeButton, setActiveButton] = useState("download");
 
   const handleButtonClick = (buttonName) => {
@@ -26,10 +32,10 @@ const ViewRequest = ({ onBack }) => {
       setStatus("Acknowledged");
     }
   };
-  const [status, setStatus] = useState("Pending"); // Initial state
+  const [status, setStatus] = useState("Pending");
 
   const handleBtnClick = () => {
-    setStatus("In Progress"); // Update status on button click
+    setStatus("In Progress");
   };
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -51,7 +57,7 @@ const ViewRequest = ({ onBack }) => {
       const imgData = canvas.toDataURL("image/png");
 
       const pdf = new jsPDF();
-      pdf.addImage(imgData, "PNG", 10, 10, 180, 100); // Adjusted height
+      pdf.addImage(imgData, "PNG", 10, 10, 180, 100);
       pdf.save("download.pdf");
       handleOpen();
     } catch (error) {
@@ -71,7 +77,6 @@ const ViewRequest = ({ onBack }) => {
         <div
           className="create-pro-container"
           style={{
-            // height: "532px",
             overflowY: "auto",
             maxHeight: "40rem",
             "&::-webkit-scrollbar": {
@@ -206,32 +211,6 @@ const ViewRequest = ({ onBack }) => {
                   >
                     11/14/2024 10:27:43
                   </Typography>
-
-                  {/* <TextField
-                    name="card-description"
-                    id="card-description"
-                    variant="outlined"
-                    fullWidth
-                    disabled
-                    placeholder="11/14/2024  10:27:43
-"
-                    sx={{
-                      backgroundColor: "#fff",
-                      "& .MuiOutlinedInput-root": {
-                        height: "48px",
-                        borderRadius: "8px",
-                      },
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "transparent",
-                      },
-                      "&:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "transparent",
-                      },
-                      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "transparent",
-                      },
-                    }}
-                  /> */}
                 </div>
               </Box>
 
