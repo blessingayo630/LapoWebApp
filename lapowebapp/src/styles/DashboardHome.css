@@ -77,10 +77,10 @@
 .sec {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive columns */
-    gap: 16px; /* Spacing between items */
+    gap: 16px; 
     width: 100%;
-    /* padding: 16px; */
 }
+
 .icon-container {
     font-size: 24px;
     margin-bottom: 8px;
@@ -89,15 +89,15 @@
 
 .third-sec, .fourth-sec {
     display: flex;
-    flex-wrap: wrap; /* Allows stacking on smaller screens */
+    flex-wrap: wrap;
     gap: 16px;
     justify-content: space-between;
     margin-top: 16px;
 }
 
 .chart-container, .table-container, .chart-box {
-    flex: 1; /* Allows equal sizing */
-    min-width: 280px; /* Prevents collapsing on small screens */
+    flex: 1; 
+    min-width: 280px;
     border-radius: 12px;
     background: rgba(255, 255, 255, 1);
     padding: 16px;
@@ -115,7 +115,7 @@
 
 @media (max-width: 768px) {
     .third-sec, .fourth-sec {
-        flex-direction: column; /* Stack items vertically */
+        flex-direction: column;
     }
 }
 
